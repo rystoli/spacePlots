@@ -112,3 +112,83 @@ def DM_to_NetworkGraph_plot( labels, DM ):
     write_rawDot( labels, DM )
     write_formatDot( labels )
     dot_plot()
+
+######################################################################
+# Axis relation plotting (r coefficient relation)
+######################################################################
+
+def r2slope( r ):
+    '''
+    Take r coefficient, returns slope of one vector
+    relative to another vector assumed to be a horizontal line
+    ---
+    ARGUMENTS:
+    ---
+    r: float, pearson r
+    ---
+    Returns: float, returns slope of vector compared to other vector assumed to be m=0/1
+    '''
+    deg = np.rad2deg(np.arccos(r))
+    return np.tan(np.deg2rad(deg))
+
+def rVecCoords( r ):
+    '''
+    Gets coordinates for vector with length 1 as slope for r
+    relative to horizontal vector
+    ---
+    ARGUMENTS:
+    ---
+    r: float, pearson r
+    ---
+    Returns: list, x,y coordinates of vector, length 1 end with slope
+             ...of axis relative to another assuming r correlation
+             ...between the two
+    '''
+    return [np.cos(np.arccos(r)),np.sin(np.arccos(r))]
+
+def axesR_plot( r, label_axes = None, orthComp = True, figoutpath='AxesR_plot.png'):
+    '''
+    Plot relation of two axes to one another based on Pearson
+    correlation between axes. One axis is horizontal X axis,
+    light gray vertical axis is provided by default for comparison
+    to no relation. For recommended ways to estimate
+    r coefficient between groups of variables, e.g., groups
+    via clustering/PCA, see: http://www.statsoft.com/Textbook/Cluster-Analysis
+    ---
+    ARGUMENTS:
+    ---
+    r: float, pearson r
+    label_axes: optional, list of strings, labels for [x,y] axes
+    orthComp: opaitonal, boolean, if True, provide Y axis as vector to highlight
+              ...comparison of relationship to 0, or orthogonal axes
+    figoutpath: optional, str, filename/type if to save figure
+    ---
+    Returns: No return, plots and saves plot of axis relation
+    '''
+    # create plot points
+    #### each array is a 2-point vector, [x1, y1, x2, y2]
+    soa = np.array([
+        # coordinates for horizontal line (vector 1)
+        [0, 0, 1, 0],
+        [0, 0, -1, 0],
+        # coordinates for related vector, vector 2
+        [0, 0, rVecCoords(r)[0], rVecCoords(r)[1]],
+        [0, 0, -1*rVecCoords(r)[0], -1*rVecCoords(r)[1]]
+        ])
+
+    # plot
+    X, Y, U, V = zip(*soa)
+    plt.figure(figsize=(8,8))
+    ax = plt.gca()
+    if orthComp: ax.annotate("", xy=(0, 1), xytext=(0, -1), arrowprops=dict(arrowstyle="<->"), color='#F5F5F5')
+    ax.quiver(X, Y, U, V, angles='xy', scale_units='xy', scale=1)
+    ax.set_xlim([-1.5, 1.5])
+    ax.set_ylim([-1.5, 1.5])
+    ax.set_aspect('equal')
+    if label_axes:
+        plt.text(1.1, 0, label_axes[0], fontsize=12)
+        plt.text(U[2]+.1*np.sign(U[2]), rVecCoords(r)[1]+.1, label_axes[1], fontsize=12)
+    plt.axis('off')
+    plt.draw()
+    if figoutpath: plt.savefig(figoutpath)
+    plt.show()
