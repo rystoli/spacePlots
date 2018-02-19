@@ -8,5 +8,5 @@ setup(name='spaceplots',
         author='Ryan Stolier',
         author_email='rystoli@nyu.edu',
         url='https://github.com/rystoli/spacePlots',
-        packages=['spacePlots']
+        packages=['spaceplots']
         )
