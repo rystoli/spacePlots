@@ -20,6 +20,7 @@ def DM_plot(labels,DM,figoutpath='DM_plot.png'):
     cmap = sns.diverging_palette(220, 10, as_cmap=True)
     fig, axs = plt.subplots(figsize=(11, 9))
     sns.heatmap(DM, xticklabels = labels, yticklabels = labels, cmap=cmap)
+    sns.set(font_scale=1.5)
     plt.xticks(rotation=45)
     if figoutpath: fig.savefig(figoutpath)
     plt.show()
@@ -178,7 +179,7 @@ def axesR_plot( r, label_axes = None, orthComp = True, figoutpath='AxesR_plot.pn
 
     # plot
     X, Y, U, V = zip(*soa)
-    plt.figure(figsize=(8,8))
+    plt.figure(figsize=(10,10))
     ax = plt.gca()
     if orthComp: ax.annotate("", xy=(0, 1), xytext=(0, -1), arrowprops=dict(arrowstyle="<->"), color='#F5F5F5')
     ax.quiver(X, Y, U, V, angles='xy', scale_units='xy', scale=1)
@@ -186,8 +187,8 @@ def axesR_plot( r, label_axes = None, orthComp = True, figoutpath='AxesR_plot.pn
     ax.set_ylim([-1.5, 1.5])
     ax.set_aspect('equal')
     if label_axes:
-        plt.text(1.1, 0, label_axes[0], fontsize=12)
-        plt.text(U[2]+.1*np.sign(U[2]), rVecCoords(r)[1]+.1, label_axes[1], fontsize=12)
+        plt.text(1.1, 0, label_axes[0], fontsize=24)
+        plt.text(U[2]+.1*np.sign(U[2]), rVecCoords(r)[1]+.1, label_axes[1], fontsize=20)
     plt.axis('off')
     plt.draw()
     if figoutpath: plt.savefig(figoutpath)

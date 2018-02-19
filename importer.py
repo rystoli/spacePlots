@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+from IPython.display import Image, display
 import numpy as np
 import pandas as pd
 from numpy import genfromtxt
