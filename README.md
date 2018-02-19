@@ -4,3 +4,8 @@ Python package for the plotting of multivariate spaces and their reduction from 
 Developed by: 
 - Mari Galicer [Git](https://github.com/mgalicer)
 - John Andrew Chwe [Git](https://github.com/jahchwe)
+
+## To do!
+- Make more flexible formatting
+- Chord plot
+- Automate interaction of dimension reduction with plots
